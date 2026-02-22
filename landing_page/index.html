@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PomoFocus - Ultra Minimalist Timer</title>
+    <meta name="description" content="An ultra-minimalist, glow-aesthetic Pomodoro timer for Google Chrome.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdfdfd;
+            --text-main: #2a2a2a;
+            --text-muted: #b0b0b0;
+            --accent-color: #ffb1c8;
+            --accent-glow: rgba(255, 177, 200, 0.4);
+            --ring-fg: #ff85a9;
+            --ring-glow: drop-shadow(0 0 16px rgba(255, 133, 169, 0.4));
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 60px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 80px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(40px);
+            opacity: 0.6;
+        }
+
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            filter: var(--ring-glow);
+            margin-bottom: 32px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 200;
+            letter-spacing: -1.5px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        h1 span {
+            color: var(--ring-fg);
+            font-weight: 300;
+            text-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 48px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: var(--ring-fg);
+            color: white;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px -10px var(--ring-fg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px -10px var(--ring-fg);
+            background: #ff69b4;
+        }
+
+        .cta-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+            width: 100%;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            padding: 32px;
+            background: transparent;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            color: var(--ring-fg);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Installation Instructions */
+        .installation {
+            width: 100%;
+            max-width: 600px;
+            text-align: left;
+            margin-top: 40px;
+            padding: 40px;
+            background: rgba(255, 177, 200, 0.03);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 177, 200, 0.1);
+        }
+
+        .install-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .install-title svg {
+            color: var(--ring-fg);
+        }
+
+        .install-steps {
+            list-style: none;
+            counter-reset: custom-counter;
+        }
+
+        .install-steps li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .install-steps li::before {
+            counter-increment: custom-counter;
+            content: counter(custom-counter);
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--ring-fg);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px -2px var(--ring-fg);
+        }
+
+        .install-steps code {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--ring-fg);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 3rem;
+            }
+
+            .hero {
+                margin-top: 40px;
+            }
+
+            .installation {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <section class="hero">
+            <div class="hero-bg-glow"></div>
+            <img src="icon128.png" alt="PomoFocus Logo" class="logo-img">
+            <h1>Pomo<span>Focus</span></h1>
+            <p class="subtitle">An ultra-minimalist, distraction-free Pomodoro timer designed to help you drop into flow
+                state effortlessly.</p>
+
+            <a href="https://github.com/placeholder/pomofocus/releases" class="cta-button" target="_blank"
+                rel="noopener noreferrer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download Release
+            </a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <h3 class="feature-title">Ultra Minimal</h3>
+                <p class="feature-desc">Zero borders, zero clutter. A pristine interface built with elegant spacing and
+                    subtle glowing typography.</p>
+            </div>
+
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <h3 class="feature-title">Tabata & Custom Built-in</h3>
+                <p class="feature-desc">Instantly edit your work sprints, cool down rests, and round counts cleanly
+                    inline.</p>
+            </div>
+
+            <div class="feature-card">
+                <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>
+                <h3 class="feature-title">Bulletproof Engine</h3>
+                <p class="feature-desc">Driven by raw browser alarms rather than Javascript intervals. Immune to Chrome
+                    tab suspension.</p>
+            </div>
+        </section>
+
+        <section class="installation">
+            <h2 class="install-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                How to Install
+            </h2>
+            <ol class="install-steps">
+                <li>Download the latest `PomodoroExt.zip` release and extract it to a folder.</li>
+                <li>Open Google Chrome, and navigate to <code>chrome://extensions/</code> in your address bar.</li>
+                <li>Toggle the <strong>Developer mode</strong> switch in the top-right corner to <strong>On</strong>.
+                </li>
+                <li>Click the <strong>Load unpacked</strong> button in the top-left menu.</li>
+                <li>Select the extracted <code>PomodoroExt</code> directory.</li>
+                <li>Click the Puzzle icon in your toolbar and pin PomoFocus for quick access!</li>
+            </ol>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Built for Focus. Designed for Zen.</p>
+    </footer>
+
+</body>
+
+</html>

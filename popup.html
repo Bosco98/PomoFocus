@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">Pomofocus</h1>
+        </header>
+
+        <nav class="mode-selector">
+            <button class="mode-btn active" data-mode="focus">Focus</button>
+            <button class="mode-btn" data-mode="shortBreak">Short</button>
+            <button class="mode-btn" data-mode="longBreak">Long</button>
+            <button class="mode-btn" data-mode="tabata">Tabata</button>
+            <button class="mode-btn" data-mode="custom">Custom</button>
+        </nav>
+
+        <div id="editableSettings" class="editable-settings hidden">
+            <!-- Dynamically populated via JS -->
+        </div>
+
+        <main class="timer-container">
+            <div class="progress-ring-wrapper">
+                <svg class="progress-ring" width="220" height="220">
+                    <circle class="progress-ring__background" stroke-width="4" fill="transparent" r="100" cx="110"
+                        cy="110" />
+                    <circle class="progress-ring__circle" stroke-width="6" fill="transparent" r="100" cx="110"
+                        cy="110" />
+                </svg>
+                <div class="timer-display">
+                    <span id="timeRemaining">25:00</span>
+                    <span id="tabataInfo" class="hidden glow-text">Round 1/8<br>WORK</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="startBtn" class="control-icon-btn glow-btn" title="Start">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </button>
+                <button id="pauseBtn" class="control-icon-btn glow-btn hidden" title="Pause">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                    </svg>
+                </button>
+                <button id="resetBtn" class="control-icon-btn" title="Reset">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
